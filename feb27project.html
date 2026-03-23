@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎮 Neon Guess Game</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', sans-serif;
+    background: radial-gradient(circle at top, #0f2027, #000000 75%);
+}
+
+.glow-bg {
+    position: absolute;
+    width: 700px;
+    height: 700px;
+    background: radial-gradient(circle, rgba(0,191,255,0.35), transparent 70%);
+    filter: blur(140px);
+}
+
+.game-card {
+    position: relative;
+    width: 420px;
+    padding: 45px;
+    border-radius: 25px;
+    background: linear-gradient(145deg, #0a0f1c, #111827);
+    box-shadow:
+        0 20px 50px rgba(0,0,0,0.8),
+        inset 0 0 40px rgba(0,191,255,0.15);
+    text-align: center;
+}
+
+h1 {
+    color: #00bfff;
+    margin: 0;
+}
+
+.subtitle {
+    color: #aaa;
+    margin: 12px 0 20px;
+}
+
+.emoji {
+    font-size: 60px;
+    margin: 20px 0;
+    transition: 0.3s;
+}
+
+input {
+    width: 85%;
+    padding: 14px;
+    font-size: 16px;
+    border-radius: 12px;
+    border: none;
+    outline: none;
+    background: #0f172a;
+    color: #00bfff;
+    box-shadow: inset 0 0 12px rgba(0,191,255,0.6);
+}
+
+button {
+    margin-top: 18px;
+    padding: 12px 28px;
+    border-radius: 12px;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    color: white;
+    background: linear-gradient(145deg, #0077ff, #00bfff);
+    box-shadow: 0 8px 20px rgba(0,191,255,0.5);
+    transition: 0.2s;
+}
+
+button:hover {
+    box-shadow: 0 12px 30px rgba(0,191,255,0.9);
+}
+
+.restart {
+    background: linear-gradient(145deg, #003366, #0055aa);
+}
+
+.message {
+    margin-top: 18px;
+    font-weight: bold;
+    min-height: 24px;
+}
+
+.stats {
+    margin-top: 12px;
+    font-size: 14px;
+    color: #bbb;
+}
+</style>
+</head>
+
+<body>
+
+<div class="glow-bg"></div>
+
+<div class="game-card">
+    <h1>🎮 Guess The Number</h1>
+    <div class="subtitle">Choose between 1 and 100</div>
+
+    <div class="emoji" id="emoji">🤖</div>
+
+    <input type="number" id="guessInput" placeholder="Enter your guess">
+
+    <br>
+    <button onclick="checkGuess()">⚡ Submit</button>
+    <button class="restart" onclick="restartGame()">🔄 Restart</button>
+
+    <div class="message" id="message"></div>
+    <div class="stats" id="stats"></div>
+</div>
+
+<script>
+let secretNumber;
+let attempts;
+
+function startGame() {
+    secretNumber = Math.floor(Math.random() * 100) + 1;
+    attempts = 0;
+    document.getElementById("message").innerText = "";
+    document.getElementById("stats").innerText = "";
+    document.getElementById("guessInput").value = "";
+    document.getElementById("emoji").innerText = "🤖";
+}
+
+function checkGuess() {
+    const guess = Number(document.getElementById("guessInput").value);
+    const message = document.getElementById("message");
+    const stats = document.getElementById("stats");
+    const emoji = document.getElementById("emoji");
+
+    if (!guess || guess < 1 || guess > 100) {
+        message.innerText = "⚠ Enter a valid number 1 - 100";
+        message.style.color = "red";
+        emoji.innerText = "😵";
+        return;
+    }
+
+    attempts++;
+
+    if (guess > secretNumber) {
+        message.innerText = "📈 Too High";
+        message.style.color = "#00bfff";
+        emoji.innerText = "😬";
+    } 
+    else if (guess < secretNumber) {
+        message.innerText = "📉 Too Low";
+        message.style.color = "#00bfff";
+        emoji.innerText = "😯";
+    } 
+    else {
+        message.innerText = "🏆 Correct. You Win!";
+        message.style.color = "#00ffcc";
+        emoji.innerText = "🔥";
+    }
+
+    stats.innerText = "Attempts: " + attempts;
+}
+
+function restartGame() {
+    startGame();
+}
+
+startGame();
+</script>
+
+</body>
+</html>

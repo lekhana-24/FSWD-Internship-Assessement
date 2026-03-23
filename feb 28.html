@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Manager</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial, Helvetica, sans-serif;
+background:linear-gradient(135deg,#1e3c72,#2a5298);
+color:white;
+}
+
+header{
+text-align:center;
+padding:40px 20px 10px 20px;
+}
+
+.logo{
+font-size:48px;
+animation:float 3s ease-in-out infinite;
+}
+
+@keyframes float{
+0%{transform:translateY(0px);}
+50%{transform:translateY(-12px);}
+100%{transform:translateY(0px);}
+}
+
+h1{
+margin:10px 0;
+font-size:34px;
+}
+
+.container{
+width:90%;
+max-width:950px;
+margin:30px auto;
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(12px);
+padding:30px;
+border-radius:18px;
+box-shadow:0 0 30px rgba(0,0,0,0.4);
+}
+
+.form-row{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:15px;
+margin-bottom:25px;
+}
+
+input{
+padding:12px;
+border:none;
+border-radius:8px;
+width:160px;
+}
+
+button{
+padding:12px 20px;
+border:none;
+border-radius:8px;
+background:#00c6ff;
+font-weight:bold;
+cursor:pointer;
+}
+
+button:hover{
+background:#0072ff;
+color:white;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+}
+
+th, td{
+padding:14px;
+text-align:center;
+}
+
+th{
+background:#0072ff;
+}
+
+tr:nth-child(even){
+background:rgba(255,255,255,0.05);
+}
+
+.delete-btn{
+background:#ff4b5c;
+color:white;
+}
+
+.class-avg{
+margin-top:20px;
+padding:15px;
+text-align:center;
+background:rgba(0,0,0,0.3);
+border-radius:10px;
+font-size:18px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">📘</div>
+<h1>Student Manager</h1>
+</header>
+
+<div class="container">
+
+<div class="form-row">
+<input type="text" id="name" placeholder="Student Name">
+<input type="number" id="math" placeholder="Math">
+<input type="number" id="science" placeholder="Science">
+<input type="number" id="english" placeholder="English">
+<button onclick="addStudent()">Add</button>
+</div>
+
+<table id="studentTable">
+<thead>
+<tr>
+<th>Name</th>
+<th>Math</th>
+<th>Science</th>
+<th>English</th>
+<th>Average</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody></tbody>
+</table>
+
+<div class="class-avg" id="classAverage">
+Class Average: 0
+</div>
+
+</div>
+
+<script>
+let students=[];
+
+function addStudent(){
+const name=document.getElementById("name").value;
+const math=parseFloat(document.getElementById("math").value);
+const science=parseFloat(document.getElementById("science").value);
+const english=parseFloat(document.getElementById("english").value);
+
+if(name===""||isNaN(math)||isNaN(science)||isNaN(english)){
+alert("Fill all fields");
+return;
+}
+
+const avg=((math+science+english)/3).toFixed(2);
+students.push({name,math,science,english,average:avg});
+displayStudents();
+clearFields();
+}
+
+function displayStudents(){
+const tbody=document.querySelector("#studentTable tbody");
+tbody.innerHTML="";
+let total=0;
+
+students.forEach((s,index)=>{
+total+=parseFloat(s.average);
+tbody.innerHTML+=`
+<tr>
+<td>${s.name}</td>
+<td>${s.math}</td>
+<td>${s.science}</td>
+<td>${s.english}</td>
+<td>${s.average}</td>
+<td><button class="delete-btn" onclick="deleteStudent(${index})">Delete</button></td>
+</tr>`;
+});
+
+const classAvg=students.length>0?(total/students.length).toFixed(2):0;
+document.getElementById("classAverage").innerText="Class Average: "+classAvg;
+}
+
+function deleteStudent(index){
+students.splice(index,1);
+displayStudents();
+}
+
+function clearFields(){
+document.getElementById("name").value="";
+document.getElementById("math").value="";
+document.getElementById("science").value="";
+document.getElementById("english").value="";
+}
+</script>
+
+</body>
+</html>

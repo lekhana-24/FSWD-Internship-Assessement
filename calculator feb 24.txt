@@ -1,0 +1,68 @@
+console.log("===== CONSOLE CALCULATOR =====");
+
+function calculator() {
+
+    let num1 = Number(prompt("Enter first number:"));
+    let num2 = Number(prompt("Enter second number:"));
+
+    if (isNaN(num1) || isNaN(num2)) {
+        console.log("Invalid number input");
+        return;
+    }
+
+    let operator = prompt(
+        "Choose operation:\n" +
+        "+  Addition\n" +
+        "-  Subtraction\n" +
+        "*  Multiplication\n" +
+        "/  Division\n" +
+        "%  Modulus\n" +
+        "pow Power\n" +
+        "per Percentage"
+    );
+
+    let result;
+
+    switch (operator) {
+
+        case "+":
+            result = num1 + num2;
+            break;
+
+        case "-":
+            result = num1 - num2;
+            break;
+
+        case "*":
+            result = num1 * num2;
+            break;
+
+        case "/":
+            if (num2 === 0) {
+                console.log("Division by zero not allowed");
+                return;
+            }
+            result = num1 / num2;
+            break;
+
+        case "%":
+            result = num1 % num2;
+            break;
+
+        case "pow":
+            result = Math.pow(num1, num2);
+            break;
+
+        case "per":
+            result = (num1 / 100) * num2;
+            break;
+
+        default:
+            console.log("Invalid operation selected");
+            return;
+    }
+
+    console.log("Result:", result);
+}
+
+calculator();

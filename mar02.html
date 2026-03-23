@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive Form</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial, Helvetica, sans-serif;
+background:linear-gradient(135deg,#1e3c72,#2a5298);
+color:white;
+display:flex;
+flex-direction:column;
+align-items:center;
+}
+
+header{
+text-align:center;
+padding:40px 20px 10px 20px;
+}
+
+.logo{
+font-size:48px;
+animation:float 3s ease-in-out infinite;
+}
+
+@keyframes float{
+0%{transform:translateY(0px);}
+50%{transform:translateY(-12px);}
+100%{transform:translateY(0px);}
+}
+
+h1{
+margin:10px 0;
+font-size:34px;
+}
+
+.form-container{
+width:100%;
+max-width:420px;
+margin:30px auto;
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(12px);
+padding:35px;
+border-radius:18px;
+box-shadow:0 0 30px rgba(0,0,0,0.4);
+box-sizing:border-box;
+}
+
+form{
+width:100%;
+}
+
+.input-group{
+width:100%;
+margin-bottom:20px;
+}
+
+label{
+display:block;
+margin-bottom:6px;
+font-size:14px;
+}
+
+input{
+width:100%;
+padding:12px;
+border:none;
+border-radius:8px;
+box-sizing:border-box;
+}
+
+.error{
+color:#ff4b5c;
+font-size:12px;
+margin-top:4px;
+min-height:14px;
+}
+
+.success{
+display:none;
+margin-top:15px;
+padding:12px;
+background:#28a745;
+border-radius:8px;
+text-align:center;
+}
+
+.button-group{
+display:flex;
+gap:15px;
+margin-top:10px;
+}
+
+button{
+flex:1;
+padding:12px;
+border:none;
+border-radius:8px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.submit-btn{
+background:#00c6ff;
+}
+
+.submit-btn:hover{
+background:#0072ff;
+color:white;
+}
+
+.reset-btn{
+background:#6c757d;
+color:white;
+}
+
+.reset-btn:hover{
+background:#495057;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<div class="logo">📘</div>
+<h1>Interactive Form</h1>
+</header>
+
+<div class="form-container">
+
+<form id="form">
+
+<div class="input-group">
+<label>Full Name</label>
+<input type="text" id="name">
+<div class="error" id="nameError"></div>
+</div>
+
+<div class="input-group">
+<label>Email Address</label>
+<input type="text" id="email">
+<div class="error" id="emailError"></div>
+</div>
+
+<div class="input-group">
+<label>Password</label>
+<input type="password" id="password">
+<div class="error" id="passwordError"></div>
+</div>
+
+<div class="button-group">
+<button type="submit" class="submit-btn">Submit</button>
+<button type="button" class="reset-btn" onclick="resetForm()">Reset</button>
+</div>
+
+<div class="success" id="successMessage">
+Form submitted successfully
+</div>
+
+</form>
+
+</div>
+
+<script>
+const form=document.getElementById("form");
+
+form.addEventListener("submit",function(e){
+e.preventDefault();
+let valid=true;
+
+const name=document.getElementById("name").value.trim();
+const email=document.getElementById("email").value.trim();
+const password=document.getElementById("password").value.trim();
+
+clearMessages();
+
+if(name===""){
+document.getElementById("nameError").innerText="Name required";
+valid=false;
+}
+
+const pattern=/^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+if(email===""||!email.match(pattern)){
+document.getElementById("emailError").innerText="Valid email required";
+valid=false;
+}
+
+if(password.length<6){
+document.getElementById("passwordError").innerText="Minimum 6 characters required";
+valid=false;
+}
+
+if(valid){
+document.getElementById("successMessage").style.display="block";
+form.reset();
+}
+});
+
+function clearMessages(){
+document.getElementById("nameError").innerText="";
+document.getElementById("emailError").innerText="";
+document.getElementById("passwordError").innerText="";
+document.getElementById("successMessage").style.display="none";
+}
+
+function resetForm(){
+form.reset();
+clearMessages();
+}
+</script>
+
+</body>
+</html>
